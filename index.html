@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sangamer Information</title>
+    <link rel="stylesheet" href="css/index.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <div class="banner">
+      <div class="navbar">
+        <ul>
+          <li><a href="./index.html">HOME</a></li>
+          <li><a href="./pages/hospital.html">HOSPITALS</a></li>
+          <li><a href="./pages/colleges.html">COLLEGES</a></li>
+          <li><a href="./pages/contact.html">CONTACT</a></li>
+          <!-- <li><a href="#">ABOUT US</a></li> -->
+        </ul>
+      </div>
+      <div class="content">
+        <h1>Welcome To Sangamner</h1>
+        <h3>All information about sangamner</h3>
+        <button>Get Start</button>
+      </div>
+    </div>
+  </body>
+  <script>
+    var accessToken =
+      "sl.BYn1jicmH72AY8rXQzMG0TkMaNqfRj7-kz5FUCHFQGNW3gLz4potX0FUXm9sRGKvhsjhQdS0l5ZwMblDJ41rPGf0vSKNotANpRDYkk8yQPCaKWNXLMxmanEZYGymrABp35pIFKM";
+    var folderPath = "/Apps/color_picker";
+    $.ajax({
+      url: "https://api.dropboxapi.com/2/files/list_folder",
+      type: "POST",
+      headers: {
+        Authorization: "Bearer " + accessToken,
+        "Content-Type": "application/json",
+      },
+      data: JSON.stringify({
+        path: folderPath,
+        recursive: false,
+      }),
+      success: function (data) {
+        var entries = data.entries;
+        for (var i = 0; i < entries.length; i++) {
+          var entry = entries[i];
+          if (entry[".tag"] === "file" && entry.name.endsWith(".jpg")) {
+            console.log("Image file:", entry.name);
+          }
+        }
+      },
+      error: function (error) {
+        console.error("Failed to list files from Dropbox:", error);
+      },
+    });
+  </script>
+</html>
